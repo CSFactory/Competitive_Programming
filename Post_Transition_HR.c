@@ -38,7 +38,7 @@ void print_all_packages(town t) {
         
         printf("\t%d:\n",i);
         for(int p=0;p<(t.offices+i)->packages_count;p++){
-            printf("\t\t%c\n",*(((t.offices+i)->packages+p)->id));
+            printf("\t\t%s\n",(((t.offices+i)->packages+p)->id));
         } 
     }
 }
