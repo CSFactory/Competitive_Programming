@@ -51,32 +51,24 @@ void send_all_acceptable_packages(town* source, int source_office_index, town* t
         }
     }
     
-    //printf("package count %d",package_count_in_source_towns_postoffice);
-    
-/*   package* new_packages = (package*)malloc(sizeof(package));
-   int k=1; */
+
    
    for(int h=0;h<package_count_in_source_towns_postoffice;h++){
        if(((((((source->offices)+source_office_index)->packages)+h)->weight)>=(((target->offices)+target_office_index)->min_weight)) && ((((((source->offices)+source_office_index)->packages)+h)->weight)<=(((target->offices)+target_office_index)->max_weight))){
-        // printf("h=%d, source->po->package = %c\n",h, *(((((source->offices)+source_office_index)->packages)+h)->id)); //upto here, it is correct
+
         
            ((target->offices)+target_office_index)->packages_count++;
            
            ((target->offices)+target_office_index)->packages = realloc(((target->offices)+target_office_index)->packages, sizeof(package) * ((target->offices)+target_office_index)->packages_count); 
+           
            int temp = ((target->offices)+target_office_index)->packages_count-1;
+           
            *(((target->offices+target_office_index)->packages)+temp) = *((((source->offices)+source_office_index)->packages)+h); 
            
            ((source->offices)+source_office_index)->packages_count--;
-       }
-     /*  else{
-           *(new_packages+(k-1)) = *(((source->offices)+source_office_index)->packages+h);
-           k++;
-           new_packages = realloc(new_packages, sizeof(package)*k);
-       } */
-   }
-  /* ((source->offices)+source_office_index)->packages = new_packages;
-   ((source->offices)+source_office_index)->packages_count = k-1; */
    
+       }
+   }  
 }
 
 town town_with_most_packages(town* towns, int towns_count) {
@@ -87,22 +79,20 @@ town town_with_most_packages(town* towns, int towns_count) {
     
     for(int i=0;i<towns_count;i++){
         count_total_packages_per_town = 0;
-        for(int j=0;j<towns->offices_count;j++){
+        for(int j=0;j<(towns+i)->offices_count;j++){
             count_total_packages_per_town += (((towns+i)->offices)+j)->packages_count;
         }
         arr_per_town_total_packages[i]  = count_total_packages_per_town;
     }
-    
-    //Find max_quantity_index in arr of total town packages
-    for(int k=0;k<towns_count;k++){
-        for(int l=k+1;l<towns_count;l++){
-            if(arr_per_town_total_packages[k]<arr_per_town_total_packages[l]){
-                k=l;
-                index_of_town_with_max_no_of_packages = l;
-            }
-        }
-    }
-    
+       //Find max_quantity_index in arr of total town packages
+    int loc=0;
+    for(int k=1;k<towns_count;k++){
+       
+            if(arr_per_town_total_packages[loc]<arr_per_town_total_packages[k]){
+                loc=k;
+                index_of_town_with_max_no_of_packages = k;
+            }  
+    }  
   return *(towns+index_of_town_with_max_no_of_packages);  
 }
 
