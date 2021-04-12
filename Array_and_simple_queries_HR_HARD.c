@@ -29,6 +29,7 @@ int main() {
         int temp_arr[((end_index-starting_index)+1)];
         int temp_index=0;
         //Copying the values from starting_index-1 to end_index-1 into temp array
+        //This temp array will work for both type of transformations
         for(int t=(starting_index-1);t<end_index;t++){
             temp_arr[temp_index] = arr[t];
             temp_index++;
@@ -44,11 +45,29 @@ int main() {
             for(int tr=0;tr<temp_index;tr++){
                 arr[tr] = temp_arr[tr];
             }
+        }
+        //Process the main array for back transformation
+        else if(query_type==2){
+
+           int ei = end_index;
+            for(int bcp=(starting_index-1);bcp<end_index;bcp++){
+                arr[bcp] = arr[ei];
+                ei++;
+            } 
+            for(int trp=0;trp<temp_index;trp++){
+                arr[end_index] = temp_arr[trp];
+                end_index++;
+            } 
         }  
     }
     
-    for(int ll=0;ll<n;ll++){
-        printf("%d ",arr[ll]);
-    }
+    //OUTPUT
+    //Printing A[1]-A[N]
+    printf("%d\n",(abs(arr[0]-arr[n-1])));
+   //After all the manipulations, Printing the final array.
+    for(int fa=0;fa<n;fa++){
+        printf("%d ",arr[fa]);
+    } 
     return 0;
 }
+
